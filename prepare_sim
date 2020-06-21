@@ -1,0 +1,33 @@
+#!/bin/bash
+
+fixat=$(python3 ./sortxyz.py $1)
+
+filename=$(basename -- "$1")
+extension="${filename##*.}"
+filename="${filename%.*}"
+
+# copy then i-pi input and change the fixed atoms with the correct indeces
+sed "s/FIXEDATOMS/$fixat/g" template/input.xml > $filename/input.xml
+# chance the output file name
+sed -i "s/ONAME/$filename/g" $filename/input.xml 
+# generate a random number for the port
+# this has to be improved, since 
+# 1) we should the port is not in use
+# 2) we should check tha the same port is not used in other simulations
+port=$(shuf -i 1023-65530 -n 1)
+# apply this to input.xml
+sed -i "s/PORTA/$port/g" $filename/input.xml 
+# apply it also to in.cp2k
+sed "s/PORT PORTA/PORT $port/g" template/in.cp2k > $filename/in.cp2k
+
+# set the right cell size 
+read -r cella cellb cellc <<<$(python3 -c "from ase.io import read ; frame=read('$1'); print(frame.get_cell()[0][0],frame.get_cell()[1][1],frame.get_cell()[2][2])")
+sed -i "s/CELLA/$cella/g" $filename/in.cp2k
+sed -i "s/CELLB/$cellb/g" $filename/in.cp2k
+sed -i "s/CELLC/$cellc/g" $filename/in.cp2k
+
+sed -i "s/CELLA/$cella/g" $filename/input.xml
+sed -i "s/CELLB/$cellb/g" $filename/input.xml
+sed -i "s/CELLC/$cellc/g" $filename/input.xml
+
+cp template/sub* $filename/

@@ -1,0 +1,40 @@
+#!/bin/bash -l
+#
+# CP2K on Piz Daint: 64 nodes, 1 MPI task per node, 12 OpenMP threads per task
+#
+#SBATCH --job-name=cp2k
+#SBATCH --time=23:59:00
+#SBATCH --nodes=16
+#SBATCH --ntasks-per-node=36
+#SBATCH --cpus-per-task=1
+#SBATCH --account=em01
+#SBATCH --partition=normal
+#SBATCH --constraint=mc
+#SBATCH --array=0-8
+#========================================
+# load modules and run simulation
+
+
+module load daint-mc
+module load CP2K
+export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK:-1}
+ulimit -s unlimited
+
+if [[ -f "EXIT" ]]
+then
+   rm EXIT
+fi
+
+mkdir tmpcp2k-$SLURM_ARRAY_TASK_ID
+cd    tmpcp2k-$SLURM_ARRAY_TASK_ID
+
+cp ../in.cp2k .
+cp ../init.xyz .
+
+srun -n $SLURM_NTASKS -c $SLURM_CPUS_PER_TASK cp2k.psmp -i  in.cp2k -o cp2k.out
+
+cd ..
+
+
+wait
+
