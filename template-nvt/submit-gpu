@@ -3,14 +3,13 @@
 # CP2K on Piz Daint: 64 nodes, 1 MPI task per node, 12 OpenMP threads per task
 #
 #SBATCH --job-name=cp2k
-#SBATCH --time=3:50:00
+#SBATCH --time=18:50:00
 #SBATCH --nodes=27
 #SBATCH --ntasks-per-node=12
 #SBATCH --cpus-per-task=1
 #SBATCH --account=s904
 #SBATCH --partition=normal
 #SBATCH --constraint=gpu
-#SBATCH --array=0-38
 #========================================
 # load modules and run simulation
 
@@ -41,8 +40,8 @@ fi
 sleep 5
 
 
-mkdir tmpcp2k-$SLURM_ARRAY_TASK_ID
-cd    tmpcp2k-$SLURM_ARRAY_TASK_ID
+mkdir tmpcp2k
+cd    tmpcp2k
 
 cp ../in.cp2k .
 cp ../init.xyz .
@@ -53,4 +52,6 @@ cd ..
 
 
 wait
+
+rm RUNNING
 
