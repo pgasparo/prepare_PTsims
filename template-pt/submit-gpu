@@ -28,19 +28,6 @@ then
 fi
 
 
-if [[ ! -f "RUNNING" ]]
-then
-   touch RUNNING
-   source ~/sources/i-pi/env.sh
-   sed -i "s/HOST/$HOST/g" input.xml
-   sed -i "s/HOSTN/$HOST/g" in.cp2k
-   nohup ~/sources/i-pi/bin/i-pi input.xml > log &
-   sleep 5
-fi
-
-sleep 5
-
-
 mkdir tmpcp2k-$SLURM_ARRAY_TASK_ID
 cd    tmpcp2k-$SLURM_ARRAY_TASK_ID
 

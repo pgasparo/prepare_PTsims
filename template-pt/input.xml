@@ -1,0 +1,160 @@
+<simulation verbosity='high' threading='true'>
+  <!--
+  # Decomment to use a unix socket
+  <ffsocket mode='unix' name='driver' matching='any'>
+    <address>remdbr</address>
+    <latency>0.01</latency>
+    <timeout>50000</timeout>
+  </ffsocket>
+  -->
+  <ffsocket mode='inet' name='driver'>
+    <address>daint107</address>
+    <port>PORTA</port>
+    <latency>0.01</latency>
+    <timeout>8000</timeout>
+  </ffsocket>
+  <total_steps>50000000</total_steps>
+  <output prefix='ONAME'>
+    <properties stride='1' flush='1'>[step, time{femtosecond}, conserved, potential, kinetic_cv, pressure_cv, volume, temperature{kelvin}, ensemble_temperature{kelvin},  kinetic_md, pressure_md ] </properties>
+    <trajectory stride='1' format='pdb' filename='xc' cell_units='angstrom'> x_centroid{angstrom} </trajectory>
+    <trajectory stride='1' format='xyz' filename='pos'> positions </trajectory>
+    <trajectory stride='1' format='xyz' filename='vel'> velocities </trajectory>
+    <trajectory stride='1' format='xyz' filename='for'> forces </trajectory>
+    <checkpoint stride='1' overwrite='true' filename='chk'/>
+    <checkpoint stride='1' overwrite='true' filename='restart'/>
+  </output>
+  <prng>
+    <seed> 5963</seed>
+  </prng>
+  <system_template>
+    <labels>   [ ID, TEMP]   </labels>
+    <instance> [0, 60 ] </instance> 
+    <instance> [1, 66 ] </instance>
+    <instance> [2, 72 ] </instance>
+    <instance> [3, 79 ] </instance>
+    <instance> [4, 86 ] </instance>
+    <instance> [5, 94 ] </instance>
+    <instance> [6, 103 ] </instance>
+    <instance> [7, 113 ] </instance>
+    <instance> [8, 123 ] </instance>
+    <instance> [9, 135 ] </instance>
+    <instance> [10, 147 ] </instance>
+    <instance> [11, 161 ] </instance>
+    <instance> [12, 176 ] </instance>
+    <instance> [13, 193 ] </instance>
+    <instance> [14, 211 ] </instance>
+    <instance> [15, 231 ] </instance>
+    <instance> [16, 253 ] </instance>
+    <instance> [17, 277 ] </instance>
+    <instance> [18, 303 ] </instance>
+    <instance> [19, 331 ] </instance>
+    <instance> [20, 362 ] </instance>
+    <instance> [21, 396 ] </instance>
+    <instance> [22, 434 ] </instance>
+    <instance> [23, 475 ] </instance>
+    <instance> [24, 519 ] </instance>
+    <instance> [25, 568 ] </instance>
+    <instance> [26, 621 ] </instance>
+    <instance> [27, 680 ] </instance>
+    <instance> [28, 744 ] </instance>
+    <instance> [29, 814 ] </instance>
+    <instance> [30, 890 ] </instance>
+    <instance> [31, 974 ] </instance>
+    <instance> [32, 1066 ] </instance>
+    <instance> [33, 1166 ] </instance>
+    <instance> [34, 1276 ] </instance>
+    <instance> [35, 1396 ] </instance>
+    <instance> [36, 1527 ] </instance>
+    <instance> [37, 1671 ] </instance>
+    <instance> [38, 1828 ] </instance>
+    <instance> [39, 2000 ] </instance>
+    <instance> [39, 2000 ] </instance>
+    <instance> [36, 1527 ] </instance>
+    <instance> [37, 1671 ] </instance>
+    <instance> [38, 1828 ] </instance>
+    <instance> [39, 2000 ] </instance>
+    <instance> [40, 2101 ] </instance>
+    <instance> [41, 2202 ] </instance>
+    <instance> [42, 2303 ] </instance>
+    <instance> [43, 2404 ] </instance>
+    <instance> [44, 2505 ] </instance>
+    <instance> [45, 2606 ] </instance>
+    <instance> [46, 2707 ] </instance>
+    <instance> [47, 2808 ] </instance>
+    <instance> [48, 2909 ] </instance>
+    <instance> [49, 3010 ] </instance>
+    <instance> [50, 3111 ] </instance>
+    <instance> [51, 3212 ] </instance>
+    <instance> [52, 3313 ] </instance>
+    <instance> [53, 3414 ] </instance>
+    <instance> [54, 3515 ] </instance>
+    <instance> [55, 3600 ] </instance>
+    <template>
+      <system prefix="ID">
+        <initialize nbeads="1">
+	   <cell mode='abc' units='angstrom'>
+        	[CELLA, CELLB, CELLC]
+      	   </cell>
+          <file mode='xyz' units='angstrom'> init.xyz </file>
+          <velocities mode="thermal" units="kelvin"> TEMP </velocities>
+        </initialize>
+        <forces>
+          <force forcefield ="driver"/>
+        </forces>
+        <motion mode='dynamics' >
+          <dynamics mode='nvt'>
+            <!--
+              # Generated at http://epfl-cosmo.github.io/gle4md
+              # Please cite:
+              # M. Ceriotti, G. Bussi and M. Parrinello, J. Chem. Theory Comput. 6, 1170 (2010) 
+              # M. Ceriotti, G. Bussi and M. Parrinello, Phys. Rev. Lett. 102, 020601 (2009)
+              # Smart-sampling GLE. Enforces efficient sampling, focussing the effort on the slowest mode 
+              # accessible by the simulation. Generated from the parameter file
+              # library/smart/smart-0.5_6-3.a, 
+              # and shifted so that they are effective to sample optimally 
+              # a time scale of t_opt=20 picoseconds,
+              # and do as well as possible upt to a cutoff frequency of 
+              # νmax=50 THz [1668 cm^-1]
+            -->
+            <thermostat mode='gle'>
+               <A shape='(7,7)'>
+                  [   1.533249866713e-4,    1.959322663379e-3,    1.985037928000e-4,    2.875616503110e-4,    9.755133676641e-5,   -3.804253355833e-6,   -6.054491052075e-5,
+                      5.923968590672e-5,    8.074287740564e-3,   -5.866114407186e-3,    9.205222753267e-4,    6.719561547068e-4,   -1.586358554817e-4,    3.001262131518e-4,
+                      2.875151223166e-4,    5.866114407186e-3,    2.700066729556e-3,    2.540395015664e-3,   -9.105477826198e-5,    5.787560270609e-4,   -1.199722081428e-3,
+                     -2.941348166739e-4,   -9.205222753267e-4,   -2.540395015664e-3,    2.661656937342e-5,   -7.561619872520e-6,    6.900071995791e-5,    9.286574707341e-5,
+                     -9.760913467896e-5,   -6.719561547068e-4,    9.105477826198e-5,    7.561619872520e-6,    1.402567678033e-7,   -2.284914639732e-5,   -7.913486492183e-6,
+                      3.799719725490e-6,    1.586358554817e-4,   -5.787560270609e-4,   -6.900071995791e-5,    2.284914639732e-5,    4.476731731668e-8,    5.241513958367e-5,
+                      6.054737769091e-5,   -3.001262131518e-4,    1.199722081428e-3,   -9.286574707341e-5,    7.913486492183e-6,   -5.241513958367e-5,   3.159953013350e-12
+                  ]
+               </A>
+            </thermostat>
+            <timestep units='femtosecond'> 0.5 </timestep>
+          </dynamics>
+          <!--
+          <dynamics mode='nvt'>
+            <thermostat mode='langevin'>
+               <tau units='femtosecond'>50</tau>
+            </thermostat>
+            <timestep units='femtosecond'> 0.5 </timestep>
+          </dynamics>
+          -->
+          <fixcom> True </fixcom>
+	  <fixatoms> 
+		  FIXEDATOMS
+	  </fixatoms>
+        </motion>
+        <ensemble>
+          <temperature units="kelvin"> TEMP </temperature>
+        </ensemble>
+      </system>
+    </template> 
+  </system_template>
+
+  <smotion mode="remd">
+    <remd>
+      <stride> 7 </stride>
+    </remd>
+  </smotion>
+
+</simulation>
+

@@ -3,43 +3,27 @@
 # CP2K on Piz Daint: 64 nodes, 1 MPI task per node, 12 OpenMP threads per task
 #
 #SBATCH --job-name=cp2k
-#SBATCH --time=3:50:00
-#SBATCH --nodes=27
-#SBATCH --ntasks-per-node=12
+#SBATCH --time=23:59:00
+#SBATCH --nodes=16
+#SBATCH --ntasks-per-node=36
 #SBATCH --cpus-per-task=1
-#SBATCH --account=s904
+#SBATCH --account=em01
 #SBATCH --partition=normal
-#SBATCH --constraint=gpu
-#SBATCH --array=0-38
+#SBATCH --constraint=mc
+#SBATCH --array=0-8
 #========================================
 # load modules and run simulation
 
 
-module load daint-gpu
+module load daint-mc
 module load CP2K
 export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK:-1}
-export CRAY_CUDA_MPS=1
-
 ulimit -s unlimited
 
 if [[ -f "EXIT" ]]
 then
    rm EXIT
 fi
-
-
-if [[ ! -f "RUNNING" ]]
-then
-   touch RUNNING
-   source ~/sources/i-pi/env.sh
-   sed -i "s/HOST/$HOST/g" input.xml
-   sed -i "s/HOSTN/$HOST/g" in.cp2k
-   nohup ~/sources/i-pi/bin/i-pi input.xml > log &
-   sleep 5
-fi
-
-sleep 5
-
 
 mkdir tmpcp2k-$SLURM_ARRAY_TASK_ID
 cd    tmpcp2k-$SLURM_ARRAY_TASK_ID
