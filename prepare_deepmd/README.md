@@ -37,15 +37,17 @@ python ./gettype.py 0_pk129297_C33H240Au896.pos_0.xyz
 
 Now, all these scripts can be applyes to each sytem (frames with the same atom types, number and order).
 One can use the tool provided by deepmp-kit to transform the raws in `numpy` binary data that are directly used by the training program. 
-User can use the script `$deepmd_source_dir/data/raw/raw_to_set.sh` to convert the prepared raw files to data sets. For example, if we have a raw file that contains 6000 frames, 
+User can use the script `$deepmd_source_dir/data/raw/raw_to_set.sh` to convert the prepared raw files to data sets. For example, if we have a raw PTMD trajectory with 56 replicas containing 78 frames: 
 
 ```bash
-$ cd pk129297_C33H240Au896 
-$ python ./getcoord.py -pt 56 pk129297_C33H240Au896 ; python ./getforce.py -pt 56 pk129297_C33H240Au896 ; ./getenergy.sh pk129297_C33H240Au896 4 56 > energy.raw ; python ./getbox.py -pt 56 pk129297_C33H240Au896 ; python ./gettype.py 0_pk129297_C33H240Au896.pos_0.xyz ; mkdir deepmdsets/ ; mv *raw deepmdsets
+$ cd example
+$ tar xzfv bromo.tgz
+$ cp ../get* .
+$ python ./getcoord.py -pt 56 bromo ; python ./getforce.py -pt 56 bromo ; ./getenergy.sh bromo 4 56 > energy.raw ; python ./getbox.py -pt 56 bromo ; python ./gettype.py 0_bromo.pos_0.xyz ; mkdir deepmdsets/ ; mv *raw deepmdsets
 $ cd deepmdsets
 $ ls 
 box.raw  coord.raw  energy.raw  force.raw  type.raw 
-$ $deepmd_source_dir/data/raw/raw_to_set.sh 2000
+$ $deepmd_source_dir/data/raw/raw_to_set.sh 1100
 nframe is 6000
 nline per set is 2000
 will make 3 sets
