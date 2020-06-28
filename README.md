@@ -23,7 +23,7 @@ N.B.: you might want the change the submission script according to your needs
 
 ## Prepare DeepMD training files from simulation outputs
 
-After having collected enough statistics we can prooced training the potential.
+After having collected enough statistics we can proceed training the potential.
 
 ```bash
 cd prepare_deepmd
