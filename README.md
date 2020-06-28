@@ -1,4 +1,4 @@
-# Prepare PT sims
+# Prepare PT simulations
 
 ## Generate simulation files
 
@@ -23,13 +23,9 @@ N.B.: you might want the change the submission script according to your needs
 
 ## Prepare DeepMD training files from simulation outputs
 
+After having collected enough statistics we can prooced training the potential.
+
 ```bash
 cd prepare_deepmd
 ```
-
-Here you find some script to format the raw i-PI output files to a raw format which is deepmd-ready 
-
-```bash
-commands
-```
-
+Inside the directory you will find more information about the preparation of training sets.
