@@ -4,7 +4,7 @@
 	"type_map":	["Au", "H", "C", "Br"],
 	"descriptor" :{
 	    "type":		"se_a",
-	    "sel":		[46, 92],
+	    "sel":		[60, 50, 50, 50],
 	    "rcut_smth":	5.80,
 	    "rcut":		6.00,
 	    "neuron":		[25, 50, 100],
