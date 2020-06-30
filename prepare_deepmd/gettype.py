@@ -35,7 +35,10 @@ if __name__ == '__main__':
     # Get the file  
     frames=read_traj(name)
 
-    atomtypes=np.asarray([labels[i] for i in frames[0].symbols])
+    try:
+        atomtypes=np.asarray([labels[i] for i in frames[0].symbols])
+    except:
+        atomtypes=np.asarray([labels[i] for i in frames[0].get_chemical_symbols()])
     
 
     # save on a single file and convert to angstrom
