@@ -1,0 +1,29 @@
+#!/bin/bash
+
+DEEPMD_ROOT="path"
+
+SYS_ROOT=$1
+listofsys=$2
+
+for i in $(cat ${SYS_ROOT}/${listofsys})
+do
+   cp ${SYS_ROOT}/${i}/*_pk*.* .;
+   rm *#*
+   echo "" | awk '{print "#!/bin/bash\n"}' > runset
+   echo "python ./getcoord.py -pt 56 bromo ; python ./getforce.py -pt 56 bromo ; ./getenergy.sh bromo 4 56 > energy.raw ; python ./getbox.py -pt 56 bromo ; python ./gettype.py 0_bromo.pos_0.xyz" >> runset;  
+   sed "s/bromo/${i}/g" runset > runscripts ;
+   rm runset;
+   bash runscripts;
+   
+   rm runscript;
+   nset=$(tail -n 1 1_*.out | awk '{print $1*56/4}')
+
+   mkdir ${i};
+   cd ${i};
+   mv ../*raw .;
+   rm ../*_pk*.*;
+
+   ${DEEPMD_ROOT}/data/raw/raw_to_set.sh $nset;
+   cd ..;
+done
+
