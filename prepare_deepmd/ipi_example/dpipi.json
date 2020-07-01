@@ -1,0 +1,15 @@
+{
+    "verbose":		false,
+    "use_unix":		false,
+    "port":		31415,
+    "host":		"localhost",
+    "graph_file":	"graph.pb",
+    "coord_file":	"init.xyz",
+    "atom_type" : {
+	"Au": 0,
+        "H": 1,
+        "C": 2,
+        "Br": 3,
+        "N": 4
+}
+}
