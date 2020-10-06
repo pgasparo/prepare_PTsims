@@ -34,7 +34,7 @@ labels = {
 }
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description="XYZ to coord.raw")
+    parser = argparse.ArgumentParser(description="PDB to cell.raw")
     parser.add_argument("filename", help="NAME of the trajectory file (will read xc.pdb)")
     parser.add_argument("-o",type=str,default="box.raw",help="Name of the output files")
     parser.add_argument("-pt",type=int,default=0,help="Number of PT replicas (<1: single file, >1: N replicas)")
