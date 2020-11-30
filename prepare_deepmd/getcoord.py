@@ -52,7 +52,7 @@ if __name__ == '__main__':
         # The first three numbers are the 3 positions components of the first atom, 
         # while the second three numbers are the 3 positiom components of the second atom. 
         
-        fr_coords=xyz_to_coord(name+".xyz")
+        fr_coords=xyz_to_coord(name+".pos_0.xyz")
     else:
         # PT replicas
         fr_coords=np.vstack([xyz_to_coord(str(i)+"_"+name+".pos_0.xyz") for i in range(args.pt)])
