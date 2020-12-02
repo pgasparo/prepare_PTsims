@@ -1,4 +1,4 @@
-# Prepare PT simulations
+# Train ML Potentials
 
 ## Generate simulation files
 
